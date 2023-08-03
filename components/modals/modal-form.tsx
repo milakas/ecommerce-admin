@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { StoreServices } from '@/components/modals/services/StoreServices';
+import { StoreServices } from '@/components/modals/services/store-services';
 
 interface ModalFormProps {
   onCancel: () => void;

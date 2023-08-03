@@ -2,7 +2,7 @@
 
 import { Modal } from '@/components/ui/modal';
 import { useStoreModal } from '@/hooks/use-store-modal';
-import ModalForm from './ModalForm';
+import ModalForm from './modal-form';
 
 const StoreModal = () => {
   const { isOpen, onClose } = useStoreModal();
