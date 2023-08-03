@@ -1,10 +1,12 @@
 import { AxiosResponse } from 'axios';
+import { Store } from '@prisma/client';
 
 import $api from '@/http';
-import { PStore, Store } from './types';
 
 export class StoreServices {
-  static createStore(newStore: PStore): Promise<AxiosResponse<Store>> {
+  static createStore(
+    newStore: Pick<Store, 'name'>
+  ): Promise<AxiosResponse<Store>> {
     return $api.post('/stores', newStore);
   }
 }
