@@ -39,8 +39,13 @@ const ModalForm = ({ onCancel }: ModalFormProps) => {
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     setIsLoading(true);
     try {
-      await StoreServices.createStore(values);
-      toast.success('Store created.');
+      const res = await StoreServices.createStore(values);
+
+      // Not using the routes from next/navigation
+      // because it's not going to perform a complete refresh on our page
+      // like window.location.assign did.
+
+      window.location.assign(`/${res.data.id}`);
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
