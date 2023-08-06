@@ -15,7 +15,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { StoreServices } from '@/components/modals/services/store-services';
+import { StoreServices } from '@/services/store-services';
 
 interface ModalFormProps {
   onCancel: () => void;
@@ -27,17 +27,19 @@ export const formSchema = z.object({
   }),
 });
 
+export type ModalFormValues = z.infer<typeof formSchema>;
+
 const ModalForm = ({ onCancel }: ModalFormProps) => {
-  const [loading, setIsLoading] = useState(false);
-  const form = useForm<z.infer<typeof formSchema>>({
+  const [loading, setLoading] = useState(false);
+  const form = useForm<ModalFormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    setIsLoading(true);
+  const onSubmit = async (values: ModalFormValues) => {
+    setLoading(true);
     try {
       const res = await StoreServices.createStore(values);
 
@@ -49,31 +51,31 @@ const ModalForm = ({ onCancel }: ModalFormProps) => {
     } catch (error) {
       toast.error('Something went wrong.');
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
         <FormField
           control={form.control}
-          name="name"
+          name='name'
           render={({ field }) => (
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                <Input disabled={loading} placeholder="E-Commerce" {...field} />
+                <Input disabled={loading} placeholder='E-Commerce' {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <div className="space-x-2 flex items-center justify-end">
-          <Button disabled={loading} variant="outline" onClick={onCancel}>
+        <div className='flex items-center justify-end space-x-2'>
+          <Button disabled={loading} variant='outline' onClick={onCancel}>
             Cancel
           </Button>
-          <Button disabled={loading} type="submit">
+          <Button disabled={loading} type='submit'>
             Continue
           </Button>
         </div>
